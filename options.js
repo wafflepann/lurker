@@ -1,5 +1,5 @@
 document.getElementById("connectTwitch").onclick = () => {
-  const clientId = "YOUR_CLIENT_ID";
+  const clientId = "k94k8emoeags4qs8ln9oas608dmu93";
   const redirectUri = "https://wafflepann.github.io/lurker/auth.html";
   const scopes = "user:read:follows";
 
