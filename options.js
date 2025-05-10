@@ -1,7 +1,6 @@
 document.getElementById("connectTwitch").onclick = () => {
   const clientId = "YOUR_CLIENT_ID";
-  const redirectUri =
-    "https://yourusername.github.io/twitch-lurker-auth/auth-redirect.html";
+  const redirectUri = "https://wafflepann.github.io/lurker/auth.html";
   const scopes = "user:read:follows";
 
   const url = `https://id.twitch.tv/oauth2/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(
