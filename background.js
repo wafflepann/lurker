@@ -4,20 +4,20 @@ const POLL_INTERVAL_MINUTES = 1;
 
 let channelTabs = {}; // { channelName: tabId }
 
-chrome.runtime.onInstalled.addListener(() => {
-  chrome.alarms.create("pollTwitch", {
+browser.runtime.onInstalled.addListener(() => {
+  browser.alarms.create("pollTwitch", {
     periodInMinutes: POLL_INTERVAL_MINUTES,
   });
 });
 
-chrome.alarms.onAlarm.addListener((alarm) => {
+browser.alarms.onAlarm.addListener((alarm) => {
   if (alarm.name === "pollTwitch") {
     checkStreams();
   }
 });
 
 async function checkStreams() {
-  const { twitchToken, channels = [] } = await chrome.storage.local.get([
+  const { twitchToken, channels = [] } = await browser.storage.local.get([
     "twitchToken",
     "channels",
   ]);
@@ -40,7 +40,7 @@ async function checkStreams() {
 
     // Optional: clear token if unauthorized
     if (response.status === 401) {
-      await chrome.storage.local.remove("twitchToken");
+      await browser.storage.local.remove("twitchToken");
       console.warn("Token invalid or expired. User must reconnect.");
     }
     return;
@@ -55,13 +55,13 @@ async function checkStreams() {
     const isLive = liveChannels.has(channel.toLowerCase());
 
     if (isLive && !channelTabs[channel]) {
-      chrome.tabs.create({ url: `https://twitch.tv/${channel}` }, (tab) => {
+      browser.tabs.create({ url: `https://twitch.tv/${channel}` }, (tab) => {
         channelTabs[channel] = tab.id;
       });
     }
 
     if (!isLive && channelTabs[channel]) {
-      chrome.tabs.remove(channelTabs[channel]);
+      browser.tabs.remove(channelTabs[channel]);
       delete channelTabs[channel];
     }
   }

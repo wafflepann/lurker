@@ -12,7 +12,7 @@ document.getElementById("connectTwitch").onclick = () => {
 // Listen for postMessage from GitHub Pages OAuth redirect
 window.addEventListener("message", (event) => {
   if (event?.data?.type === "TWITCH_TOKEN" && event.data.token) {
-    chrome.storage.local.set({ twitchToken: event.data.token });
+    browser.storage.local.set({ twitchToken: event.data.token });
   }
 });
 
@@ -21,10 +21,10 @@ document.getElementById("addChannel").onclick = async () => {
   const newChannel = input.value.trim().toLowerCase();
   if (!newChannel) return;
 
-  const { channels = [] } = await chrome.storage.local.get("channels");
+  const { channels = [] } = await browser.storage.local.get("channels");
   if (!channels.includes(newChannel)) {
     channels.push(newChannel);
-    await chrome.storage.local.set({ channels });
+    await browser.storage.local.set({ channels });
     renderList(channels);
   }
 
@@ -41,6 +41,6 @@ async function renderList(channels) {
   });
 }
 
-chrome.storage.local.get("channels").then(({ channels = [] }) => {
+browser.storage.local.get("channels").then(({ channels = [] }) => {
   renderList(channels);
 });
