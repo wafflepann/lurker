@@ -1,14 +1,14 @@
 {
-  "manifest_version": 3,
+  "manifest_version": 2,
   "name": "Twitch Lurker",
   "version": "1.0",
   "description": "Auto-open Twitch streams when they go live, and close when offline.",
-  "permissions": ["storage", "tabs", "alarms"],
-  "host_permissions": ["https://api.twitch.tv/*"],
+  "permissions": ["storage", "tabs", "alarms", "https://api.twitch.tv/*"],
   "background": {
-    "service_worker": "background.js"
+    "scripts": ["background.js"],
+    "persistent": false
   },
-  "action": {
+  "browser_action": {
     "default_popup": "popup.html",
     "default_icon": {
       "48": "icon.png"
@@ -20,5 +20,7 @@
   },
   "icons": {
     "48": "icon.png"
-  }
+  },
+  "web_accessible_resources": ["auth.html", "auth.js"],
+  "content_security_policy": "script-src 'self'; object-src 'self';"
 }
