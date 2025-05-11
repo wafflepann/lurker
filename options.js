@@ -1,7 +1,7 @@
 document.getElementById("connectTwitch").onclick = () => {
   const clientId = "k94k8emoeags4qs8ln9oas608dmu93";
   const redirectUri = "https://wafflepann.github.io/lurker/auth.html";
-  const scopes = "user:read:follows";
+  const scopes = "user:read:follows"; // No scopes needed for stream status
 
   const url = `https://id.twitch.tv/oauth2/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(
     redirectUri
@@ -9,9 +9,10 @@ document.getElementById("connectTwitch").onclick = () => {
   window.open(url, "_blank");
 };
 
-chrome.runtime.onMessage.addListener((message) => {
-  if (message.type === "TWITCH_TOKEN") {
-    chrome.storage.local.set({ twitchToken: message.token });
+// NEW: Listen for postMessage from GitHub Pages OAuth redirect
+window.addEventListener("message", (event) => {
+  if (event?.data?.type === "TWITCH_TOKEN" && event.data.token) {
+    chrome.storage.local.set({ twitchToken: event.data.token });
   }
 });
 
