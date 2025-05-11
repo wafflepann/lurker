@@ -21,10 +21,10 @@ document.getElementById("addChannel").onclick = async () => {
   const newChannel = input.value.trim().toLowerCase();
   if (!newChannel) return;
 
-  const { channels = [] } = await chrome.storage.local.get("channels");
+  const { channels = [] } = await browser.storage.local.get("channels");
   if (!channels.includes(newChannel)) {
     channels.push(newChannel);
-    await chrome.storage.local.set({ channels });
+    await browser.storage.local.set({ channels });
     renderList(channels);
   }
 
@@ -41,6 +41,6 @@ async function renderList(channels) {
   });
 }
 
-chrome.storage.local.get("channels").then(({ channels = [] }) => {
+browser.storage.local.get("channels").then(({ channels = [] }) => {
   renderList(channels);
 });
